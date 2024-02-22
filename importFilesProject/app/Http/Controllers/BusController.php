@@ -32,9 +32,16 @@ class BusController extends Controller
      */
     public function store(Request $request)
     {
-        Excel::import(new BusesImport, request()->file('file'));
+        if ($request->hasFile('file'))
+        {
+            Excel::import(new BusesImport, request()->file('file'));
+            return redirect()->route('bus.index')->with('success',"data imported succesfully");
+        }
 
-        return redirect()->route('bus.index')->with('success',"data imported succesfully");
+        return redirect()->route('bus.index');
+        
+
+        
     }
 
     /**
